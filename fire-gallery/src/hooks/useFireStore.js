@@ -1,12 +1,13 @@
 import {useState,useEffect} from 'react'
 
 import {projectFirestore} from '../firebase/config'
-
+import firebase from 'firebase'
 const useFirestore=(collection)=> {
 const [docs,setDocs]=useState([]);
+const user=firebase.auth().currentUser
 useEffect(()=>{
-const unsub=projectFirestore.collection(collection)
-    .onSnapshot((snap)=>{
+const unsub=projectFirestore.collection('images').doc(user?.uid).collection('user-images')
+.onSnapshot((snap)=>{
         let documents=[];
         snap.forEach(doc=>{
             documents.push({...doc.data(),id:doc.id})
@@ -14,7 +15,7 @@ const unsub=projectFirestore.collection(collection)
         setDocs(documents);
     });
     return ()=>unsub();
-},[collection])
+},[collection,user])
     return {docs};
 }
 

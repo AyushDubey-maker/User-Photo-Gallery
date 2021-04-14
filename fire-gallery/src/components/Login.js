@@ -1,58 +1,48 @@
-import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
-import { Link, useHistory } from "react-router-dom"
+import { Button } from '@material-ui/core'
+import React from 'react'
+import styled from 'styled-components'
+import {  auth, provider } from '../firebase/config';
+function Login() {
+    function signIn(e){
+        e.preventDefault();
+        auth.signInWithPopup(provider).catch((error)=>alert(error.message))
 
-export default function Login() {
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const { login } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-
-    try {
-      setError("")
-      setLoading(true)
-      await login(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
-    } catch {
-      setError("Failed to log in")
     }
-
-    setLoading(false)
-  }
-
-  return (
-    <>
-      <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4">Log In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" ref={emailRef} required />
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" ref={passwordRef} required />
-            </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
-              Log In
-            </Button>
-          </Form>
-          <div className="w-100 text-center mt-3">
-            <Link to="/forgot-password">Forgot Password?</Link>
-          </div>
-        </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2">
-        Need an account? <Link to="/signup">Sign Up</Link>
-      </div>
-    </>
-  )
+    // eslint-disable-next-line
+    return (
+        <LoginContainer>
+           <LoginInnerContainer>
+               <h1>Sign In to Photo Gallery</h1>
+               <p>Designed by Ayush Dubey</p>
+               <Button  onClick={signIn}>Sign In with Google</Button>
+               </LoginInnerContainer> 
+        </LoginContainer>
+    )
 }
+
+export default Login;
+const LoginContainer=styled.div`
+background-color:#f8f8f8;
+height:100vh;
+display:grid;
+place-items:center;
+`;
+const LoginInnerContainer=styled.div`
+
+padding:100px;
+text-align:center;
+background-color:white;
+border-radius:10px;
+box-shadow:0 1px 3px rgba(0,0,0,0.12),0 1px 2px rgba(0,0,0,0.24);
+>p{
+  color:gray;
+  font-style:italic;
+}
+
+>button{
+    margin-top:50px;
+    text-transform:inherit !important;
+    background-color:#0a8d48 !important;
+    color:white;
+}
+`;
