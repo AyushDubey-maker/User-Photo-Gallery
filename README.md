@@ -16,4 +16,4 @@ This is a photo gallery app built on React using firebase.
 <hr/>
 
 > ### Image-Modal:
-<img src="./user-gallery-3.png"/>
+<img src="./user-gallery-3.png" height="250px"/>
