@@ -13,6 +13,7 @@ This is a photo gallery app built on React using firebase.
 > ### HomePage:
 <img src="./user-gallery-2.png"/>
 
+### `Note: Gallery will be named according to your username.`
 <hr/>
 
 > ### Image-Modal:
